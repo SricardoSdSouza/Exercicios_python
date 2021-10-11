@@ -11,6 +11,15 @@ Aula
 {% block 'body' %}
 
 <div class="container">
+  <br>
+  {% if not usuario_avaliou %}
+      <div class="alert alert-primary" role="alert">
+        <button type="button" class="btn btn-primaty" data-toggle="modal" data-target="#exampleModal">
+          Clique Aqui
+        </button> Para avaliar esta aula
+      </div>
+      {% else %}
+  {% endif %}
 
     <div class="modal-dialog" role="document">
       <div class="modal-content">
