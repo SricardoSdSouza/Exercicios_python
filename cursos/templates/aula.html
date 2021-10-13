@@ -11,16 +11,8 @@ Aula
 {% block 'body' %}
 
 <div class="container">
-  <br>
-  {% if not usuario_avaliou %}
-      <div class="alert alert-primary" role="alert">
-        <button type="button" class="btn btn-primaty" data-toggle="modal" data-target="#exampleModal">
-          Clique Aqui
-        </button> Para avaliar esta aula
-      </div>
-      {% else %}
-  {% endif %}
 
+  <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
         <div class="modal-header">
@@ -31,8 +23,7 @@ Aula
         </div>
         <div class="modal-body">
   
-          <form action="{% url 'processa_avaliacao' %}" method="POST">
-            {% csrf_token %}
+          <form action="{% url 'processa_avaliacao' %}" method="POST">{% csrf_token %}
   
             <input type="hidden" value="{{aula.id}}" name="aula_id">
   
@@ -42,16 +33,19 @@ Aula
               <option value="re" selected>Regular</option>
               <option value="b">Bom</option>
               <option value="o">Ótimo</option>
-   
-            </select>  
-            <br>         
-            <input type="submit" class="btn btn-success" value="Avaliar">   
+  
+            </select>
+  
+            <br>
+            
+            <input type="submit" class="btn btn-success" value="Avaliar">
+  
+  
           </form>
         </div>
-      
       </div>
-    </div>
   </div>
+</div>
   <br>
   {% if not usuario_avaliou %}
     <br>
@@ -69,10 +63,7 @@ Aula
   <br>
   <h1>{{aula.nome}}</h1>
   <hr>
-  <video  width="100%" controls>
-      <source src="{{aula.aula.url}}" type="video/mp4">
-    </video>
-  <hr>
+  <img src="{{aula.aula.url}}">
 
   <h1>Faça seu comentário: </h1>
   <input id="comentario" type="text" placeholder="Comentário..." class="form-control">
@@ -195,7 +186,7 @@ function envia_comentario(){
                 div_comentario = document.getElementById('comentarios')
                 div_comentario.innerHTML = ""
                 for(i=0; i < resposta['comentarios'].length; i++){
-                  console.log('teste')
+                  
                   div_comentario.innerHTML += '<div style="background-color: red; width: 30px; height: 30px; border-radius: 15px; display: inline-block;"></div>'
                   div_comentario.innerHTML += '<h5 style="display: inline;">'+ resposta['comentarios'][i][0] +'</h5>'
                   div_comentario.innerHTML += '<p style="margin-left: 50px;">' + resposta['comentarios'][i][1] + '</p>'
