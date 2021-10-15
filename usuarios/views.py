@@ -5,17 +5,20 @@ from django.shortcuts import redirect
 import hashlib
 
 def cadastro(request):
+    
     if request.session.get('usuario'):
         return redirect('/home')
+    usuario_logado = request.session.get('usuario')
     status = request.GET.get('status')
-    return render(request, 'cadastro.html', {'status': status})
+    return render(request, 'cadastro.html', {'status': status, 'usuario': usuario_logado})
 
 
 def login(request):
     if request.session.get('usuario'):
         return redirect('/home')
+    usuario_logado = request.session.get('usuario')
     status = request.GET.get('status')
-    return render(request, 'login.html', {'status': status})
+    return render(request, 'login.html', {'status': status, 'usuario': usuario_logado})
 
 def valida_cadastro(request):
     nome = request.POST.get('nome')

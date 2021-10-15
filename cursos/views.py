@@ -1,25 +1,28 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from django.http import HttpResponse
-from django.shortcuts import redirect
+#from django.shortcuts import redirect
 from .models import Cursos, Aulas, Comentarios, NotasAulas
 import json  
 
 def home(request):
     if request.session.get('usuario'):
+        usuario_logado = request.session.get('usuario')
         cursos = Cursos.objects.all()
         request_usuario = request.session.get('usuario')
-        return render(request, 'home.html', {'cursos': cursos, 'request_usuario': request_usuario})
+        return render(request, 'home.html', {'cursos': cursos, 'request_usuario': request_usuario, 'usuario': usuario_logado})
     else:
         return redirect('/auth/login/?status=2')
     
 def curso(request, id):
     v_curso = Cursos.objects.get(id = id)
+    usuario_logado = request.session.get('usuario')
     aulas = Aulas.objects.filter(curso = v_curso)
-    return render(request, 'curso.html', {'aulas': aulas})
+    return render(request, 'curso.html', {'aulas': aulas,'usuario': usuario_logado})
 
 def aula(request, id):
     if request.session.get('usuario'):
         aula = Aulas.objects.get(id = id)
+        usuario_logado = request.session.get('usuario')
         usuario_id = request.session['usuario']
         comentarios = Comentarios.objects.filter(aula = aula).order_by('-data')
 
@@ -32,7 +35,8 @@ def aula(request, id):
                                             'comentarios': comentarios,
                                             'request_usuario': request_usuario,
                                             'usuario_avaliou': usuario_avaliou,
-                                            'avaliacoes': avaliacoes})
+                                            'avaliacoes': avaliacoes,
+                                            'usuario': usuario_logado})
     else:
         return redirect('/auth/login/?status=2')
     
