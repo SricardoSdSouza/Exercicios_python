@@ -4,6 +4,9 @@ from django.http import HttpResponse
 from .models import Cursos, Aulas, Comentarios, NotasAulas
 import json  
 
+# usuario rica@gmail.com
+# passworld = dracula30
+
 def home(request):
     if request.session.get('usuario'):
         usuario_logado = request.session.get('usuario')
